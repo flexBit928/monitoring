@@ -27,7 +27,7 @@ groups:
 
   - alert: HighDiskUsage
     expr: (1 - (node_filesystem_avail_bytes{fstype!="tmpfs"} / node_filesystem_size_bytes{fstype!="tmpfs"})) * 100 > 85
-    for: 5m
+    for: 30s
     labels:
       severity: warning
     annotations:
