@@ -18,8 +18,8 @@ groups:
       summary: "CPU ridicat pe {{ $labels.instance }}: {{ $value }}%"
 
   - alert: HighMemoryUsage
-    expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 85
-    for: 2m
+    expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 < 85
+    for: 10s
     labels:
       severity: warning
     annotations:
@@ -27,7 +27,7 @@ groups:
 
   - alert: HighDiskUsage
     expr: (1 - (node_filesystem_avail_bytes{fstype!="tmpfs"} / node_filesystem_size_bytes{fstype!="tmpfs"})) * 100 > 85
-    for: 30s
+    for: 5m
     labels:
       severity: warning
     annotations:
