@@ -1,0 +1,29 @@
+groups:
+- name: openstack-logs
+  rules:
+  - alert: CriticalErrorInLogs
+    expr: |
+      count_over_time({juju_model="openstack"} |= "CRITICAL" [5m]) > 5
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Erori CRITICAL detectate in loguri OpenStack"
+
+  - alert: NovaComputeError
+    expr: |
+      count_over_time({juju_application="nova-compute"} |= "ERROR" [5m]) > 10
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Erori detectate in nova-compute"
+
+  - alert: NeutronError
+    expr: |
+      count_over_time({juju_application="neutron-api"} |= "ERROR" [5m]) > 10
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Erori detectate in neutron-api"
