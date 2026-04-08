@@ -32,7 +32,7 @@ groups:
   rules:
   - alert: HighLogVolume
     expr: |
-      count_over_time(({job=~".+"})[30s]) > 10000
+      count_over_time(({job=~".+"})[30s]) > 100000
     labels:
       severity: warning
     annotations:
