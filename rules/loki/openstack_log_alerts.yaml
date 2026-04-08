@@ -1,4 +1,33 @@
 groups:
+- name: openstack-logs
+  rules:
+  - alert: CriticalErrorInLogs
+    expr: |
+      count_over_time({juju_model="hostnet"} |= "CRITICAL" [5m]) > 5
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Critical errors detected in OpenStack logs"
+
+  - alert: NovaComputeError
+    expr: |
+      count_over_time({juju_application="nova-compute"} |= "ERROR" [5m]) > 10
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Errors detected in nova-compute"
+
+  - alert: NeutronError
+    expr: |
+      count_over_time({juju_application="neutron-api"} |= "ERROR" [5m]) > 10
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Errors detected in neutron-api"
+
 - name: grafana-agent-high-log-volume
   rules:
   - alert: HighLogVolume
@@ -7,4 +36,4 @@ groups:
     labels:
       severity: warning
     annotations:
-      summary: "Log rate is too high - over 10000 log lines in 30s"
+      summary: "Log rate is too high - over 100000 log lines in 30s"
