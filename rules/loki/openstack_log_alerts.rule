@@ -31,7 +31,7 @@ groups:
 
   - alert: RabbitmqError
     expr: |
-      count_over_time({filename=~"/var/log/rabbitmq/.*"} |= "ERR" [5m]) > 5
+      count_over_time({filename=~"/var/log/rabbitmq/.*"} |= "[error]" [5m]) > 5
     for: 2m
     labels:
       severity: warning
