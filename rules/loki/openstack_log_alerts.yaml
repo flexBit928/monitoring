@@ -8,7 +8,7 @@ groups:
     labels:
       severity: critical
     annotations:
-      summary: "Critical errors detected in OpenStack logs"
+      summary: "Critic errors detected in OpenStack logs"
 
   - alert: NovaComputeError
     expr: |
