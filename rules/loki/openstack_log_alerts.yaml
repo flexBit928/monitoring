@@ -1,10 +1,10 @@
 groups:
-- name: grafana-agent-high-log-volume
-  rules:
-  - alert: HighLogVolume
-    expr: |
-      count_over_time(({job=~".+"})[30s]) > 100000
-    labels:
-      severity: warning
-    annotations:
-      summary: "Log rate is too high - over 100000 log lines in 30s"
+  - name: openstack-logs
+    rules:
+      - alert: CriticalErrorInLogs
+        expr: count_over_time({juju_model="hostnet"} |= "CRITICAL" [5m]) > 5
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Critical errors detected in OpenStack logs"
