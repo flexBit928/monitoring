@@ -1,39 +1,49 @@
+
 groups:
 - name: openstack-logs
   rules:
-  - alert: CriticalErrorInLogs
+  - alert: OpenStackCritical
     expr: |
-      count_over_time({juju_model="hostnet"} |= "CRITICAL" [5m]) > 5
+      count_over_time({filename=~"/var/log/(nova|neutron|glance|cinder|keystone|heat|ceilometer|aodh|octavia|designate|manila|barbican|ironic|masakarimonitors)/.*"} |= "CRITICAL" [5m]) > 5
     for: 1m
     labels:
       severity: critical
     annotations:
-      summary: "Critical errors detected in OpenStack logs"
+      summary: "CRITICAL errors detected in OpenStack service logs"
 
-  - alert: NovaComputeError
+  - alert: OpenStackError
     expr: |
-      count_over_time({juju_application="nova-compute"} |= "ERROR" [5m]) > 10
+      count_over_time({filename=~"/var/log/(nova|neutron|glance|cinder|keystone|heat|ceilometer|aodh|octavia|designate|manila|barbican|ironic|masakarimonitors)/.*"} |= "ERROR" [5m]) > 10
     for: 2m
     labels:
       severity: warning
     annotations:
-      summary: "Errors detected in nova-compute"
+      summary: "Errors detected in OpenStack service logs"
 
-  - alert: NeutronError
+  - alert: OVNError
     expr: |
-      count_over_time({juju_application="neutron-api"} |= "ERROR" [5m]) > 10
+      count_over_time({filename=~"/var/log/ovn/.*"} |= "ERR" [5m]) > 5
     for: 2m
     labels:
       severity: warning
     annotations:
-      summary: "Errors detected in neutron-api"
+      summary: "Errors detected in OVN"
+
+  - alert: HaproxyError
+    expr: |
+      count_over_time({filename="/var/log/haproxy.log"} |= "error" [5m]) > 10
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Errors detected in HAProxy"
 
 - name: grafana-agent-high-log-volume
   rules:
   - alert: HighLogVolume
     expr: |
-      count_over_time({juju_model="hostnet"}[30s]) > 100000
+      count_over_time({juju_model="hostnet"}[30s]) > 10000
     labels:
       severity: warning
     annotations:
-      summary: "Log rate is too high - over 100000 log lines in 30s"
+      summary: "Log rate is too high - over 10000 log lines in 30s"
