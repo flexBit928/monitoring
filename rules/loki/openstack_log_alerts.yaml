@@ -17,7 +17,7 @@ groups:
     labels:
       severity: warning
     annotations:
-      summary: "Errors detected in nova-compute"
+      summary: "Error detected in nova-compute"
 
   - alert: NeutronError
     expr: |
