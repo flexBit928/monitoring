@@ -4,7 +4,7 @@ groups:
   rules:
   - alert: OpenStackCritical
     expr: |
-      count_over_time({filename=~"/var/log/(nova|neutron|glance|cinder|keystone|heat|ceilometer|aodh|octavia|designate|manila|barbican|ironic|masakarimonitors)/.*"} |= "CRITICAL" [5m]) > 5
+      count_over_time({filename=~"/var/log/(barbican|cinder|designate|glance|keystone|heat|masakari|mysql|octavia|neutron|nova)/.*"} |= "CRITICAL" [5m]) > 5
     for: 1m
     labels:
       severity: critical
@@ -13,7 +13,7 @@ groups:
 
   - alert: OpenStackError
     expr: |
-      count_over_time({filename=~"/var/log/(nova|neutron|glance|cinder|keystone|heat|ceilometer|aodh|octavia|designate|manila|barbican|ironic|masakarimonitors)/.*"} |= "ERROR" [5m]) > 10
+      count_over_time({filename=~"/var/log/(barbican|cinder|designate|glance|keystone|heat|masakari|mysql|octavia|neutron|nova)/.*"} |= "ERROR" [5m]) > 10
     for: 2m
     labels:
       severity: warning
@@ -29,9 +29,27 @@ groups:
     annotations:
       summary: "Errors detected in OVN"
 
+  - alert: RabbitmqError
+    expr: |
+      count_over_time({filename=~"/var/log/rabbitmq/.*"} |= "ERR" [5m]) > 5
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Errors detected in rabbitmq"
+
   - alert: HaproxyError
     expr: |
       count_over_time({filename="/var/log/haproxy.log"} |= "error" [5m]) > 10
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Errors detected in HAProxy"
+
+  - alert: ApacheError
+    expr: |
+      count_over_time({filename="/var/log/apache2.log"} |= "error" [5m]) > 10
     for: 2m
     labels:
       severity: warning
