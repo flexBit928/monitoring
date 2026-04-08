@@ -7,7 +7,7 @@ groups:
     labels:
       severity: critical
     annotations:
-      summary: "Instanta {{ $labels.instance }} este DOWN"
+      summary: "Instance {{ $labels.instance }} is DOWN"
 
   - alert: HighCPUUsage
     expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
@@ -15,7 +15,7 @@ groups:
     labels:
       severity: critical
     annotations:
-      summary: "CPU ridicat pe {{ $labels.instance }}: {{ $value }}%"
+      summary: "CPU is high on {{ $labels.instance }}: {{ $value }}%"
 
   - alert: HighMemoryUsage
     expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 85
@@ -23,6 +23,6 @@ groups:
     labels:
       severity: warning
     annotations:
-      summary: "Memorie ridicata pe {{ $labels.instance }}: {{ $value }}%"
+      summary: "Memory RAM is high on {{ $labels.instance }}: {{ $value }}%"
 
 
