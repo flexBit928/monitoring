@@ -56,13 +56,5 @@ groups:
     annotations:
       summary: "Errors detected in HAProxy"
 
-- name: grafana-agent-high-log-volume
-  rules:
-  - alert: HighLogVolume
-    expr: |
-      count_over_time({juju_model="hostnet"}[30s]) > 10000
-    labels:
-      severity: warning
-    annotations:
-      summary: "Log rate is too high - over 10000 log lines in 30s"
+
 
