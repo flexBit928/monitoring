@@ -7,7 +7,7 @@ groups:
     labels:
       severity: critical
     annotations:
-      summary: "Instance {{ $labels.instance }} is DOWN"
+      summary: "Instances {{ $labels.instance }} is DOWN"
 
   - alert: HighCPUUsage
     expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
