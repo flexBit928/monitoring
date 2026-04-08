@@ -2,7 +2,7 @@ groups:
   - name: openstack-logs
     rules:
       - alert: CriticalErrorInLogs
-        expr: count_over_time({juju_model="hostnet"} |= "CRITICAL" [5m]) > 5
+        expr: count_over_time({} |= "CRITICAL" [5m]) > 5
         for: 1m
         labels:
           severity: critical
