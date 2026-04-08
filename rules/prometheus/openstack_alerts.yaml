@@ -24,5 +24,13 @@ groups:
       severity: warning
     annotations:
       summary: "Memory RAM is high on {{ $labels.instance }}: {{ $value }}%"
+  
+  - alert: HighDiskUsage
+    expr: (1 - (node_filesystem_avail_bytes{fstype!~"tmpfs|devtmpfs"} / node_filesystem_size_bytes{fstype!~"tmpfs|devtmpfs"})) * 100 > 85
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Disk usage is high on {{ $labels.instance }} mount {{ $labels.mountpoint }}: {{ $value | printf \"%.1f\" }}%"
 
 
