@@ -66,13 +66,3 @@ groups:
     annotations:
       summary: "Log rate is too high - over 10000 log lines in 30s"
 
-- name: apache-logs
-  rules:
-  - alert: ApacheProxyWarn
-    expr: |
-      count_over_time({filename="/var/log/apache2/error.log"} |= "proxy:warn" [1m]) > 5
-    for: 1m
-    labels:
-      severity: warning
-    annotations:
-      summary: "Apache proxy warnings detected - AH01092 errors"
