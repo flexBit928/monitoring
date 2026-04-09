@@ -4,7 +4,7 @@ groups:
   rules:
   - alert: OpenStackCritical
     expr: |
-      count_over_time({filename=~"/var/log/(barbican|designate|glance|keystone|heat|masakari|mysql|octavia|neutron|nova)/.*"} |= "CRITICAL" [5m]) > 5
+      count_over_time({filename=~"/var/log/(barbican|designate|glance|keystone|heat|masakari|mysql|octavia|neutron|nova)/.*"} |= "CRITICAL" [5m]) > 30
     for: 1m
     labels:
       severity: critical
@@ -13,7 +13,7 @@ groups:
 
   - alert: OpenStackError
     expr: |
-      count_over_time({filename=~"/var/log/(barbican|designate|glance|keystone|heat|masakari|mysql|octavia|neutron|nova)/.*"} |= "ERROR" [5m]) > 10
+      count_over_time({filename=~"/var/log/(barbican|designate|glance|keystone|heat|masakari|mysql|octavia|neutron|nova)/.*"} |= "ERROR" [5m]) > 30
     for: 2m
     labels:
       severity: warning
@@ -22,7 +22,7 @@ groups:
 
   - alert: OVNError
     expr: |
-      count_over_time({filename=~"/var/log/ovn/.*"} |= "ERR" [5m]) > 5
+      count_over_time({filename=~"/var/log/ovn/.*"} |= "ERR" [5m]) > 30
     for: 2m
     labels:
       severity: warning
@@ -31,7 +31,7 @@ groups:
 
   - alert: RabbitmqError
     expr: |
-      count_over_time({filename=~"/var/log/rabbitmq/.*"} |= "[error]" [5m]) > 20
+      count_over_time({filename=~"/var/log/rabbitmq/.*"} |= "[error]" [5m]) > 30
     for: 2m
     labels:
       severity: warning
@@ -40,7 +40,7 @@ groups:
 
   - alert: HaproxyError
     expr: |
-      count_over_time({filename="/var/log/haproxy.log"} |~ "\\[ALERT\\]|\\[CRIT\\]|\\[EMERG\\]" [5m]) > 5
+      count_over_time({filename="/var/log/haproxy.log"} |~ "\\[ALERT\\]|\\[CRIT\\]|\\[EMERG\\]" [5m]) > 30
     for: 2m
     labels:
       severity: warning
@@ -49,7 +49,7 @@ groups:
 
   - alert: ApacheError
     expr: |
-      count_over_time({filename="/var/log/apache2.log"} |= "error" [5m]) > 10
+      count_over_time({filename="/var/log/apache2.log"} |= "error" [5m]) > 30
     for: 2m
     labels:
       severity: warning
