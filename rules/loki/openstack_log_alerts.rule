@@ -4,7 +4,7 @@ groups:
   rules:
   - alert: OpenStackCritical
     expr: |
-      count_over_time({filename=~"/var/log/(barbican|cinder|designate|glance|keystone|heat|masakari|mysql|octavia|neutron|nova)/.*"} |= "CRITICAL" [5m]) > 5
+      count_over_time({filename=~"/var/log/(barbican|designate|glance|keystone|heat|masakari|mysql|octavia|neutron|nova)/.*"} |= "CRITICAL" [5m]) > 5
     for: 1m
     labels:
       severity: critical
@@ -13,7 +13,7 @@ groups:
 
   - alert: OpenStackError
     expr: |
-      count_over_time({filename=~"/var/log/(barbican|cinder|designate|glance|keystone|heat|masakari|mysql|octavia|neutron|nova)/.*"} |= "ERROR" [5m]) > 10
+      count_over_time({filename=~"/var/log/(barbican|designate|glance|keystone|heat|masakari|mysql|octavia|neutron|nova)/.*"} |= "ERROR" [5m]) > 10
     for: 2m
     labels:
       severity: warning
