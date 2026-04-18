@@ -33,5 +33,38 @@ groups:
     annotations:
       summary: "Disk usage is high on {{ $labels.instance }} mount {{ $labels.mountpoint }}: {{ $value | printf \"%.1f\" }}%"
 
+- name: nginx
+  rules:
+  - alert: NginxDown
+    expr: nginx_up == 0
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Nginx is DOWN on {{ $labels.instance }}"
+
+  - alert: NginxHighConnections
+    expr: nginx_connections_active > 1000
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Nginx high active connections on {{ $labels.instance }}: {{ $value }}"
+
+  - alert: NginxHighRequestRate
+    expr: rate(nginx_http_requests_total[5m]) > 500
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Nginx high request rate on {{ $labels.instance }}: {{ $value | printf \"%.1f\" }} req/s"
+
+  - alert: NginxHighErrorRate
+    expr: rate(nginx_connections_accepted[5m]) > 0 and (rate(nginx_connections_accepted[5m]) - rate(nginx_connections_handled[5m])) / rate(nginx_connections_accepted[5m]) * 100 > 5
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Nginx dropping connections on {{ $labels.instance }}: {{ $value | printf \"%.1f\" }}%"
 
 
